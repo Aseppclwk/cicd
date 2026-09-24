@@ -43,7 +43,7 @@ jobs:
         env:
           SSHPASS: ${{ secrets.VPS_PASSWORD }}
         run: |
-          ssh vm-a "sudo mkdir -p /var/www/level1-static && sudo chown \$USER:\$USER /var/www/level1-static"
+          sshpass -e vm-a "sudo mkdir -p /var/www/level1-static && sudo chown \$USER:\$USER /var/www/level1-static"
           sshpass -e scp -o StrictHostKeyChecking=no \
             skenario1-github-actions-vps-proxycommand/level1-static-html/app/index.html \
             skenario1-github-actions-vps-proxycommand/level1-static-html/app/style.css \
