@@ -51,7 +51,7 @@ jobs:
         run: |
           sshpass -e ssh -o StrictHostKeyChecking=no vm-a "
             echo '${SSHPASS}' | sudo -S mkdir -p /opt/level3-flask && \
-            echo '${SSHPASS}' | sudo -S chown -R \$USER:\$USER /opt/level2-node
+            echo '${SSHPASS}' | sudo -S chown -R \$USER:\$USER /opt/level3-flask
           "
           sshpass -e scp -o StrictHostKeyChecking=no \
             skenario1-github-actions-vps-proxycommand/level3-python-flask-release/app/app.py \
