@@ -49,7 +49,10 @@ jobs:
         env:
           SSHPASS: ${{ secrets.VPS_PASSWORD }}
         run: |
-          ssh vm-a "sudo mkdir -p /opt/level3-flask && sudo chown \$USER:\$USER /opt/level3-flask"
+          sshpass -e ssh -o StrictHostKeyChecking=no vm-a "
+            echo '${SSHPASS}' | sudo -S mkdir -p /opt/level3-flask && \
+            echo '${SSHPASS}' | sudo -S chown -R \$USER:\$USER /opt/level2-node
+          "
           sshpass -e scp -o StrictHostKeyChecking=no \
             skenario1-github-actions-vps-proxycommand/level3-python-flask-release/app/app.py \
             skenario1-github-actions-vps-proxycommand/level3-python-flask-release/app/requirements.txt \
@@ -60,7 +63,7 @@ jobs:
           SSHPASS: ${{ secrets.VPS_PASSWORD }}
           RELEASE_VERSION: ${{ steps.ver.outputs.version }}
         run: |
-          sshpass -e ssh vm-a "
+          sshpass -e ssh -o StrictHostKeyChecking=no vm-a "
             /opt/level3-flask/venv/bin/pip install -r /opt/level3-flask/requirements.txt &&
             sudo sed -i 's/^Environment=APP_VERSION=.*/Environment=APP_VERSION=${RELEASE_VERSION}/' /etc/systemd/system/level3-flask.service &&
             sudo systemctl daemon-reload &&
